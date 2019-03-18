@@ -1,0 +1,48 @@
+https://docs.docker.com/compose/install/
+
+docker@boot2docker:~$ clear
+docker@boot2docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker@boot2docker:~$ docker --version
+Docker version 18.09.1-rc1, build bca0068
+docker@boot2docker:~$ docker-compose --version
+-bash: docker-compose: command not found
+docker@boot2docker:~$ docker-compose version
+-bash: docker-compose: command not found
+docker@boot2docker:~$ git --version
+git version 2.9.2
+docker@boot2docker:~$ cat /etc/issue
+Core Linux
+docker@boot2docker:~$ wget https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-compose-Linux-x86_64
+Connecting to github.com (192.30.253.112:443)
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (52.216.107.36:443)
+docker-compose-Linux 100% |*******************************| 15632k  0:00:00 ETA
+docker@boot2docker:~$ ls
+docker-compose-Linux-x86_64
+docker@boot2docker:~$ docker-compose version
+-bash: docker-compose: command not found
+docker@boot2docker:~$ docker-compose run
+-bash: docker-compose: command not found
+docker@boot2docker:~$ docker-compose start
+-bash: docker-compose: command not found
+docker@boot2docker:~$ sudo chmod +x /usr/local/bin/docker-compose
+chmod: /usr/local/bin/docker-compose: No such file or directory
+docker@boot2docker:~$ sudo chmod +x docker-compose
+chmod: docker-compose: No such file or directory
+docker@boot2docker:~$ sudo chmod +x docker-compose-Linux-x86_64
+docker@boot2docker:~$ docker-compose version
+-bash: docker-compose: command not found
+docker@boot2docker:~$ docker-compose --version
+-bash: docker-compose: command not found
+docker@boot2docker:~$ sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   617    0   617    0     0    505      0 --:--:--  0:00:01 --:--:--   504
+100 11.2M  100 11.2M    0     0   752k      0  0:00:15  0:00:15 --:--:-- 1734k
+docker@boot2docker:~$ sudo chmod +x /usr/local/bin/docker-compose
+docker@boot2docker:~$ sudo ln -s /usr/local/bin/docker-compose /home/docker/docker-compose
+docker@boot2docker:~$ ls
+docker-compose               docker-compose-Linux-x86_64
+docker@boot2docker:~$ docker-compose --version
+docker-compose version 1.23.2, build 1110ad01
+docker@boot2docker:~$
