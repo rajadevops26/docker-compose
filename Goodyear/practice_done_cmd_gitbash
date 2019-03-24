@@ -1,0 +1,220 @@
+
+C:\Users\user\dwhelper\goodyear>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 3055-68B1
+
+ Directory of C:\Users\user\dwhelper\goodyear
+
+03/24/2019  03:49 PM    <DIR>          .
+03/24/2019  03:49 PM    <DIR>          ..
+03/24/2019  03:48 PM               518 docker-compose.yml
+03/24/2019  04:34 PM    <DIR>          nginx
+03/24/2019  03:38 PM    <DIR>          tomcat
+               1 File(s)            518 bytes
+               4 Dir(s)  57,646,358,528 bytes free
+
+C:\Users\user\dwhelper\goodyear>docker-compose up -d
+Building tomcat
+Step 1/7 : FROM tomcat:latest
+latest: Pulling from library/tomcat
+22dbe790f715: Already exists
+0250231711a0: Already exists
+6fba9447437b: Already exists
+4afad9c4aba6: Already exists
+12fce9923c9d: Already exists
+0dd81083d77e: Already exists
+4c2afc6ff72d: Already exists
+a62332a260f5: Already exists
+96dfb5ad080f: Already exists
+782f63228ce1: Already exists
+d610fffe30ad: Already exists
+Digest: sha256:aacce4e5ca37a3b8241c544deffd65f4cafbfb1a2fb2066f97621253c34f7dc4
+Status: Downloaded newer image for tomcat:latest
+ ---> dd6ff929584a
+Step 2/7 : ENV CATALINA_HOME /usr/local/tomcat
+ ---> Running in 971899b0e75f
+Removing intermediate container 971899b0e75f
+ ---> c8bbbc53ed3e
+Step 3/7 : ENV PATH $CATALINA_HOME/bin:$PATH
+ ---> Running in 3699c074cf6b
+Removing intermediate container 3699c074cf6b
+ ---> 40b1a33011ac
+Step 4/7 : RUN mkdir -p "$CATALINA_HOME"
+ ---> Running in 51bb14c8b733
+Removing intermediate container 51bb14c8b733
+ ---> 801b6d93d893
+Step 5/7 : WORKDIR $CATALINA_HOME
+ ---> Running in 9c48e7552645
+Removing intermediate container 9c48e7552645
+ ---> baa2c87be253
+Step 6/7 : EXPOSE 8080
+ ---> Running in 23cb4e54da08
+Removing intermediate container 23cb4e54da08
+ ---> 2bd0b8e6c62f
+Step 7/7 : CMD ["catalina.sh", "run"]
+ ---> Running in 7bf16a71d3b9
+Removing intermediate container 7bf16a71d3b9
+ ---> bc8093f95e58
+
+Successfully built bc8093f95e58
+Successfully tagged goodyear_tomcat:latest
+WARNING: Image for service tomcat was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building nginx
+Step 1/2 : FROM nginx:latest
+latest: Pulling from library/nginx
+f7e2b70d04ae: Already exists
+08dd01e3f3ac: Already exists
+d9ef3a1eb792: Already exists
+Digest: sha256:98efe605f61725fd817ea69521b0eeb32bef007af0e3d0aeb6258c6e6fe7fc1a
+Status: Downloaded newer image for nginx:latest
+ ---> 881bd08c0b08
+Step 2/2 : EXPOSE 80
+ ---> Running in 13b2ca04e241
+Removing intermediate container 13b2ca04e241
+ ---> 66fb1607ca59
+
+Successfully built 66fb1607ca59
+Successfully tagged goodyear_nginx:latest
+WARNING: Image for service nginx was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Recreating goodyear_tomcat_1 ... error
+
+ERROR: for goodyear_tomcat_1  no such image: sha256:eaf46288327148b7930ee124310d91639edebd8d4bde01818638f808d90108df: No such image: sha256:eaf46288327148b7930ee124310d91639edebd8d4bde01818638f808d90108df
+
+ERROR: for tomcat  no such image: sha256:eaf46288327148b7930ee124310d91639edebd8d4bde01818638f808d90108df: No such image: sha256:eaf46288327148b7930ee124310d91639edebd8d4bde01818638f808d90108df
+ERROR: The image for the service you're trying to recreate has been removed. If you continue, volume data could be lost. Consider backing up your data before continuing.
+
+Continue with the new image? [yN]y
+Recreating b42ccb452a85_goodyear_tomcat_1 ... done
+Recreating goodyear_nginx_1               ... done
+
+C:\Users\user\dwhelper\goodyear>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+goodyear_nginx      latest              66fb1607ca59        About a minute ago   109MB
+goodyear_tomcat     latest              bc8093f95e58        About a minute ago   463MB
+ubuntu              latest              94e814e2efa8        12 days ago          88.9MB
+tomcat              latest              dd6ff929584a        2 weeks ago          463MB
+nginx               latest              881bd08c0b08        2 weeks ago          109MB
+
+C:\Users\user\dwhelper\goodyear>docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+c6a92033c60b        goodyear_nginx      "nginx -g 'daemon of…"   26 seconds ago      Up 23 seconds       0.0.0.0:80->80/tcp       goodyear_nginx_1
+efe4811d8fba        goodyear_tomcat     "catalina.sh run"        29 seconds ago      Up 26 seconds       0.0.0.0:8080->8080/tcp   goodyear_tomcat_1
+
+C:\Users\user\dwhelper\goodyear>docker exec -ti goodyear_tomcat_1 bash
+root@efe4811d8fba:/usr/local/tomcat# pwd
+/usr/local/tomcat
+root@efe4811d8fba:/usr/local/tomcat# exit
+exit
+
+C:\Users\user\dwhelper\goodyear>docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
+c6a92033c60b        goodyear_nginx      "nginx -g 'daemon of…"   59 seconds ago       Up 56 seconds       0.0.0.0:80->80/tcp       goodyear_nginx_1
+efe4811d8fba        goodyear_tomcat     "catalina.sh run"        About a minute ago   Up 59 seconds       0.0.0.0:8080->8080/tcp   goodyear_tomcat_1
+
+C:\Users\user\dwhelper\goodyear>docker exec -it goodyear_nginx_1 bash
+root@c6a92033c60b:/# read escape sequence
+
+C:\Users\user\dwhelper\goodyear>docker exec -it goodyear_nginx_1 bash
+root@c6a92033c60b:/# pwd
+/
+root@c6a92033c60b:/# cd /usr/share/nginx/html/
+root@c6a92033c60b:/usr/share/nginx/html# ls
+50x.html  index.html
+root@c6a92033c60b:/usr/share/nginx/html# cd /var/lib/
+root@c6a92033c60b:/var/lib# ls
+apt  dpkg  misc  pam  systemd  ucf
+root@c6a92033c60b:/var/lib# cd ..
+root@c6a92033c60b:/var# ls
+backups  cache  lib  local  lock  log  mail  opt  run  spool  tmp
+root@c6a92033c60b:/var# cd /usr/local/
+root@c6a92033c60b:/usr/local# ls
+bin  etc  games  include  lib  man  sbin  share  src
+root@c6a92033c60b:/usr/local# cd /etc/nginx/
+root@c6a92033c60b:/etc/nginx# LS
+bash: LS: command not found
+root@c6a92033c60b:/etc/nginx# ls
+conf.d  fastcgi_params  koi-utf  koi-win  mime.types  modules  nginx.conf  scgi_params  uwsgi_params  win-utf
+root@c6a92033c60b:/etc/nginx# cd /usr/local/
+root@c6a92033c60b:/usr/local# ls
+bin  etc  games  include  lib  man  sbin  share  src
+root@c6a92033c60b:/usr/local# cd bin/
+root@c6a92033c60b:/usr/local/bin# ls
+root@c6a92033c60b:/usr/local/bin# cd ..
+root@c6a92033c60b:/usr/local# cat /etc/issue
+Debian GNU/Linux 9 \n \l
+
+root@c6a92033c60b:/usr/local# find / -name  html
+/usr/share/nginx/html
+find: '/proc/6/map_files': Permission denied
+root@c6a92033c60b:/usr/local# find / -name nginx
+/var/log/nginx
+/var/cache/nginx
+/etc/logrotate.d/nginx
+/etc/init.d/nginx
+/etc/default/nginx
+/etc/nginx
+/usr/lib/nginx
+/usr/sbin/nginx
+/usr/share/doc/nginx
+/usr/share/nginx
+find: '/proc/6/map_files': Permission denied
+root@c6a92033c60b:/usr/local# read escape sequence
+
+C:\Users\user\dwhelper\goodyear>docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+c6a92033c60b        goodyear_nginx      "nginx -g 'daemon of…"   9 minutes ago       Up 9 minutes        0.0.0.0:80->80/tcp       goodyear_nginx_1
+efe4811d8fba        goodyear_tomcat     "catalina.sh run"        9 minutes ago       Up 9 minutes        0.0.0.0:8080->8080/tcp   goodyear_tomcat_1
+
+C:\Users\user\dwhelper\goodyear>docker-machine active
+No active host found
+
+C:\Users\user\dwhelper\goodyear>docker-machine env default
+Error checking TLS connection: ssh command error:
+command : ip addr show
+err     : exit status 255
+output  :
+
+C:\Users\user\dwhelper\goodyear>192.168.99.100:80
+The filename, directory name, or volume label syntax is incorrect.
+
+C:\Users\user\dwhelper\goodyear>curl 192.168.99.100:80
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+C:\Users\user\dwhelper\goodyear>curl localhost:80
+curl: (7) Failed to connect to localhost port 80: Connection refused
+
+C:\Users\user\dwhelper\goodyear>curl localhost:8080
+curl: (7) Failed to connect to localhost port 8080: Connection refused
+
+C:\Users\user\dwhelper\goodyear>curl http://localhost:80
+curl: (7) Failed to connect to localhost port 80: Connection refused
+
+C:\Users\user\dwhelper\goodyear>winpty docker exec -it goodyear_nginx_1 bash
+'winpty' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\user\dwhelper\goodyear>
