@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+        tomcat:
+            #image: tomcat:8.5
+            build:
+               context: ./tomcat
+               #dockerfile: ./tomcat/Dockerfile
+            ports:
+                - "8080:8080"
+            restart: always
+        nginx:
+            depends_on:
+                 - tomcat
+            #image: nginx:latest
+            build:
+               context: ./nginx
+               #dockerfile: ./nginx/Dockerfile
+            ports:
+               - "80:80"
+            restart: always
+
